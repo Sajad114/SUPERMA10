@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم المتجر</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #e0e0e0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .admin-panel, .login-form {
+            background: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 10px 10px 20px #bebebe, -10px -10px 20px #ffffff;
+            max-width: 800px;
+            width: 90%;
+            margin: 20px auto;
+            position: relative;
+            display: none;
+        }
+
+        .top-bar {
+            position: sticky;
+            top: 0;
+            background: #f0f0f0;
+            z-index: 1000;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 10px 10px 0 0;
+        }
+
+        .admin-panel h2, .login-form h2 {
+            margin: 0;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            box-shadow: inset 5px 5px 10px #bebebe, inset -5px -5px 10px #ffffff;
+            font-size: 16px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            height: 100px;
+        }
+
+        .form-group button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #00b300;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
+        }
+
+        .product-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .product-table th, .product-table td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            background: #3498db;
+            animation: rotate 2s linear infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            background: #e0e0e0;
+            border-radius: 10px;
+            box-shadow: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .progress-bar {
+            width: 0;
+            height: 20px;
+            background: #3498db;
+            border-radius: 10px;
+            box-shadow: inset 5px 5px 10px #bebebe, inset -5px -5px 10px #ffffff;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .alert {
+            padding: 20px;
+            background-color: #f44336;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .alert.success {background-color: #4CAF50;}
+        .alert.info {background-color: #2196F3;}
+        .alert.warning {background-color: #ff9800;}
+
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 22px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .closebtn:hover {
+            color: black;
+        }
+
+        .search-bar {
+            margin-bottom: 15px;
+        }
+
+        .search-bar input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            box-shadow: inset 5px 5px 10px #bebebe, inset -5px -5px 10px #ffffff;
+            font-size: 16px;
+        }
+
+        .search-bar button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #00b300;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
+            margin-left: 10px;
+        }
+    </style>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+</head>
+<body>
+    <div class="admin-panel" id="adminPanel">
+        <div class="progress-bar-container" id="progressBarContainer">
+            <div class="progress-bar" id="progressBar">0%</div>
+        </div>
+        <h2 class="top-bar"></h2>
+        <div class="form-group">
+            <label for="coverImage">صورة الغلاف:</label>
+            <input type="file" id="coverImage" accept="image/*">
+        </div>
+        <div class="form-group">
+            <label for="productName">اسم المنتج:</label>
+            <input type="text" id="productName">
+        </div>
+        <div class="form-group">
+            <label for="productPrice">سعر المنتج:</label>
+            <input type="number" id="productPrice">
+        </div>
+        <div class="form-group">
+            <label for="productDescription">وصف المنتج:</label>
+            <textarea id="productDescription"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="detailImages">صور التفاصيل (4 صور):</label>
+            <input type="file" id="detailImages" accept="image/*" multiple>
+        </div>
+        <div class="form-group">
+            <label for="productVideo">فيديو:</label>
+            <input type="file" id="productVideo" accept="video/*">
+        </div>
+        <div class="form-group">
+            <button id="addProductButton">إضافة المنتج</button>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchProduct" placeholder="ابحث عن المنتج">
+            <button id="searchButton">بحث</button>
+        </div>
+        <table class="product-table" id="productTable">
+            <thead>
+                <tr>
+                    <th>صورة</th>
+                    <th>اسم المنتج</th>
+                    <th>السعر</th>
+                    <th>الوصف</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- سيتم عرض المنتجات هنا -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="login-form" id="loginForm">
+        <h2>تسجيل الدخول</h2>
+        <div class="form-group">
+            <label for="username">اسم المستخدم:</label>
+            <input type="text" id="username">
+        </div>
+        <div class="form-group">
+            <label for="password">كلمة المرور:</label>
+            <input type="password" id="password">
+        </div>
+        <div class="form-group">
+            <button id="loginButton">تسجيل الدخول</button>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+                <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+
+                <script type="module">
+                    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+                    import { getDatabase, ref, set, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+                    import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-storage.js";
+                    import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+
+                    // إعداد Firebase
+                    const firebaseConfig = {
+                        apiKey: "AIzaSyADaBoLHAzuhsF_PffLp31hnkp0cmTK-18",
+                        authDomain: "supermax-c14fd.firebaseapp.com",
+                        databaseURL: "https://supermax-c14fd-default-rtdb.asia-southeast1.firebasedatabase.app",
+                        projectId: "supermax-c14fd",
+                        storageBucket: "supermax-c14fd.appspot.com",
+                        messagingSenderId: "872444131439",
+                        appId: "1:872444131439:web:f9369fe06b903b1599f59a",
+                        measurementId: "G-8DSQ5M49HE"
+                    };
+
+                    const app = initializeApp(firebaseConfig);
+                    const db = getDatabase(app);
+                    const storage = getStorage(app);
+                    const auth = getAuth(app);
+
+                    // عناصر DOM
+                    const addProductButton = document.getElementById('addProductButton');
+                    const productTable = document.getElementById('productTable').getElementsByTagName('tbody')[0];
+                    const progressBarContainer = document.getElementById('progressBarContainer');
+                    const progressBar = document.getElementById('progressBar');
+                    const loginForm = document.getElementById('loginForm');
+                    const adminPanel = document.getElementById('adminPanel');
+                    const loginButton = document.getElementById('loginButton');
+
+                    // تسجيل الدخول
+                    loginButton.addEventListener('click', async () => {
+                        const username = document.getElementById('username').value;
+                        const password = document.getElementById('password').value;
+
+                        try {
+                            await signInWithEmailAndPassword(auth, username, password);
+                            alert('تم تسجيل الدخول بنجاح.');
+                            loginForm.style.display = 'none';
+                            adminPanel.style.display = 'block';
+                        } catch (error) {
+                            console.error('خطأ في تسجيل الدخول:', error);
+                            alert('خطأ في تسجيل الدخول. يرجى المحاولة مرة أخرى.');
+                        }
+                    });
+
+                    // إضافة منتج
+                    addProductButton.addEventListener('click', async () => {
+                        const coverImage = document.getElementById('coverImage').files[0];
+                        const productName = document.getElementById('productName').value;
+                        const productPrice = document.getElementById('productPrice').value;
+                        const productDescription = document.getElementById('productDescription').value;
+                        const detailImages = document.getElementById('detailImages').files;
+                        const productVideo = document.getElementById('productVideo').files[0];
+
+                        progressBarContainer.style.display = 'block';
+
+                        try {
+                            // رفع صورة الغلاف
+                            const coverImageRef = storageRef(storage, `coverImages/${coverImage.name}`);
+                            await uploadBytes(coverImageRef, coverImage);
+                            const coverImageUrl = await getDownloadURL(coverImageRef);
+
+                            // رفع الصور التفصيلية
+                            const detailImageUrls = [];
+                            for (let i = 0; i < detailImages.length; i++) {
+                                const image = detailImages[i];
+                                const detailImageRef = storageRef(storage, `detailImages/${image.name}`);
+                                await uploadBytes(detailImageRef, image);
+                                const detailImageUrl = await getDownloadURL(detailImageRef);
+                                detailImageUrls.push(detailImageUrl);
+
+                                progressBar.style.width = `${((i + 1) / detailImages.length) * 100}%`;
+                                progressBar.innerText = `${Math.round(((i + 1) / detailImages.length) * 100)}%`;
+                            }
+
+                            // رفع فيديو المنتج
+                            const productVideoRef = storageRef(storage, `productVideos/${productVideo.name}`);
+                            await uploadBytes(productVideoRef, productVideo);
+                            const productVideoUrl = await getDownloadURL(productVideoRef);
+
+                            // إضافة المنتج إلى قاعدة البيانات
+                            const productRef = push(ref(db, 'products'));
+                            await set(productRef, {
+                                coverImage: coverImageUrl,
+                                name: productName,
+                                price: productPrice,
+                                description: productDescription,
+                                detailImages: detailImageUrls,
+                                video: productVideoUrl
+                            });
+
+                            showAlert('تمت إضافة المنتج بنجاح.', 'success');
+                        } catch (error) {
+                            console.error("خطأ في إضافة المنتج:", error);
+                            showAlert('حدث خطأ أثناء إضافة المنتج. يرجى المحاولة مرة أخرى.', 'danger');
+                        } finally {
+                            loadProducts();
+                            progressBarContainer.style.display = 'none';
+                            progressBar.style.width = '0%';
+                            progressBar.innerText = '0%';
+                        }
+                    });
+
+                    // البحث عن منتج
+                    document.getElementById('searchButton').addEventListener('click', () => {
+                        const searchQuery = document.getElementById('searchProduct').value.toLowerCase();
+                        const rows = productTable.getElementsByTagName('tr');
+
+                        for (let i = 0; i < rows.length; i++) {
+                            const cells = rows[i].getElementsByTagName('td');
+                            let match = false;
+
+                            for (let j = 0; j < cells.length; j++) {
+                                if (cells[j].innerText.toLowerCase().includes(searchQuery)) {
+                                    match = true;
+                                    break;
+                                }
+                            }
+
+                            if (match) {
+                                rows[i].style.display = '';
+                            } else {
+                                rows[i].style.display = 'none';
+                            }
+                        }
+                    });
+
+                    // عرض تنبيه
+                    function showAlert(message, type) {
+                        const alertDiv = document.createElement('div');
+                        alertDiv.className = `alert ${type}`;
+                        alertDiv.innerHTML = `${message} <span class="closebtn">&times;</span>`;
+                        document.body.appendChild(alertDiv);
+
+                        const closeBtn = alertDiv.querySelector('.closebtn');
+                        closeBtn.addEventListener('click', () => {
+                            alertDiv.remove();
+                        });
+
+                        setTimeout(() => {
+                            alertDiv.remove();
+                        }, 5000);
+                    }
+
+                    // تحميل المنتجات
+                    async function loadProducts() {
+                        productTable.innerHTML = '';
+                        onValue(ref(db, 'products'), (snapshot) => {
+                            const products = snapshot.val();
+                            if (products) {
+                                Object.keys(products).forEach((key) => {
+                                    const product = products[key];
+                                    const row = productTable.insertRow();
+
+                                    const coverCell = row.insertCell(0);
+                                    const nameCell = row.insertCell(1);
+                                    const priceCell = row.insertCell(2);
+                                    const descriptionCell = row.insertCell(3);
+                                    const actionsCell = row.insertCell(4);
+
+                                    coverCell.innerHTML = `<img src="${product.coverImage}" alt="${product.name}" width="50">`;
+                                    nameCell.innerText = product.name;
+                                    priceCell.innerText = product.price;
+                                    descriptionCell.innerText = product.description;
+
+                                    const deleteButton = document.createElement('button');
+                                    deleteButton.innerText = 'حذف';
+                                    deleteButton.addEventListener('click', async () => {
+                                        if (confirm('هل أنت متأكد أنك تريد حذف هذا المنتج؟')) {
+                                            await remove(ref(db, `products/${key}`));
+                                            loadProducts();
+                                        }
+                                    });
+                                    actionsCell.appendChild(deleteButton);
+                                });
+                            }
+                        });
+                    }
+
+                    // التحقق من حالة المستخدم عند التحميل
+                    window.onload = () => {
+                        auth.onAuthStateChanged((user) => {
+                            if (user) {
+                                loginForm.style.display = 'none';
+                                adminPanel.style.display = 'block';
+                                loadProducts();
+                            } else {
+                                loginForm.style.display = 'block';
+                                adminPanel.style.display = 'none';
+                            }
+                        });
+                    };
+                </script>
+            </body>
+            </html>
