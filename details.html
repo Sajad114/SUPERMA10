@@ -1,115 +1,283 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تفاصيل المنتج</title>
     <style>
+        :root {
+            --primary-color: #00b300;
+            --primary-dark: #008000;
+            --primary-light: #80e080;
+            --bg-color: #e0e0e0;
+            --text-color: #333;
+            --light-shadow: #ffffff;
+            --dark-shadow: #bebebe;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background: #e0e0e0;
+            font-family: 'Tajawal', Arial, sans-serif;
+            background: var(--bg-color);
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 20px;
             margin: 0;
+            color: var(--text-color);
+            min-height: 100vh;
         }
 
         .product-details {
-            background: #e0e0e0;
-            border-radius: 10px;
-            box-shadow: 10px 10px 30px #bebebe, -10px -10px 30px #ffffff;
-            padding: 20px;
-            max-width: 600px;
+            background: var(--bg-color);
+            border-radius: 20px;
+            box-shadow: 12px 12px 24px var(--dark-shadow), 
+                        -12px -12px 24px var(--light-shadow);
+            padding: 25px;
+            max-width: 650px;
             width: 100%;
             text-align: center;
-            display: none; /* Hide initially */
+            display: none;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .product-details img {
+        .product-details:hover {
+            box-shadow: 15px 15px 30px var(--dark-shadow), 
+                        -15px -15px 30px var(--light-shadow);
+        }
+
+        .product-header {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .product-main-image {
             max-width: 100%;
-            border-radius: 10px;
-            margin-bottom: 10px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            box-shadow: 8px 8px 16px var(--dark-shadow), 
+                        -8px -8px 16px var(--light-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .product-main-image:hover {
+            transform: scale(1.02);
         }
 
         .product-images {
             display: flex;
-            justify-content: space-around;
-            margin-bottom: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
         }
 
         .product-images img {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             cursor: pointer;
             object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 5px 5px 10px var(--dark-shadow), 
+                        -5px -5px 10px var(--light-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.2s;
         }
 
         .product-images img:hover {
             transform: scale(1.1);
-            transition: transform 0.2s;
+            box-shadow: 6px 6px 12px var(--dark-shadow), 
+                        -6px -6px 12px var(--light-shadow);
         }
 
-        .product-details h2, .product-details p {
-            margin: 10px 0;
+        .product-details h2 {
+            margin: 15px 0;
+            color: var(--text-color);
+            font-size: 1.8em;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .product-description {
+            margin: 15px 0;
+            line-height: 1.6;
+            text-align: right;
+            padding: 0 10px;
         }
 
         .product-price {
-            color: green;
+            color: var(--primary-dark);
+            font-size: 1.8em;
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .features-list {
+            text-align: right;
+            padding: 0 20px;
+            margin: 20px 0;
+        }
+
+        .features-list li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-right: 25px;
+            list-style-type: none;
+        }
+
+        .features-list li:before {
+            content: "•";
+            color: var(--primary-color);
             font-size: 1.5em;
+            position: absolute;
+            right: 0;
+            top: -3px;
         }
 
         .contact-info {
-            margin-top: 20px;
+            margin-top: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
         .contact-info a {
             text-decoration: none;
-            color: green;
+            color: var(--primary-dark);
             font-weight: bold;
-            display: block;
-            margin: 5px 0;
+            padding: 12px 20px;
+            border-radius: 50px;
+            background: var(--bg-color);
+            box-shadow: 5px 5px 10px var(--dark-shadow), 
+                        -5px -5px 10px var(--light-shadow);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .contact-info a:hover {
+            box-shadow: inset 3px 3px 6px var(--dark-shadow), 
+                        inset -3px -3px 6px var(--light-shadow);
+            color: var(--primary-color);
+        }
+
+        .contact-info a i {
+            font-size: 1.2em;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
         }
 
         .share-button, .book-button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background: #00b300;
-            color: #fff;
+            padding: 12px 25px;
             border: none;
-            border-radius: 5px;
+            border-radius: 50px;
             cursor: pointer;
-            box-shadow: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
-            margin-right: 10px;
+            font-weight: bold;
+            font-size: 1em;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 150px;
+            justify-content: center;
+        }
+
+        .share-button {
+            background: var(--bg-color);
+            color: var(--text-color);
+            box-shadow: 5px 5px 10px var(--dark-shadow), 
+                        -5px -5px 10px var(--light-shadow);
+        }
+
+        .share-button:hover {
+            box-shadow: inset 3px 3px 6px var(--dark-shadow), 
+                        inset -3px -3px 6px var(--light-shadow);
+        }
+
+        .book-button {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 5px 5px 10px var(--dark-shadow);
+        }
+
+        .book-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
         }
 
         video {
             max-width: 100%;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        ul {
-            text-align: left;
-            padding: 0 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 8px 8px 16px var(--dark-shadow), 
+                        -8px -8px 16px var(--light-shadow);
         }
 
         .full-image-overlay {
             position: fixed;
             top: 0;
-            left: 0;
+            right: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.9);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .full-image-overlay.active {
+            opacity: 1;
+            pointer-events: all;
         }
 
         .full-image-overlay img {
             max-width: 90%;
             max-height: 90%;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+            transform: scale(0.9);
+            transition: transform 0.3s;
+        }
+
+        .full-image-overlay.active img {
+            transform: scale(1);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: white;
+            font-size: 2em;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.2);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
         .loader {
@@ -117,98 +285,107 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            right: 0;
+            background: var(--bg-color);
+            z-index: 999;
         }
 
-        .cube-loader {
+        .neumorphic-loader {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--bg-color);
+            box-shadow: 12px 12px 24px var(--dark-shadow), 
+                        -12px -12px 24px var(--light-shadow);
             position: relative;
-            width: 75px;
-            height: 75px;
-            transform-style: preserve-3d;
-            transform: rotateX(-30deg);
-            animation: animate 4s linear infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        @keyframes animate {
-            0% {
-                transform: rotateX(-30deg) rotateY(0);
-            }
-            100% {
-                transform: rotateX(-30deg) rotateY(360deg);
-            }
-        }
-
-        .cube-loader .cube-wrapper {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
-        }
-
-        .cube-loader .cube-wrapper .cube-span {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            transform: rotateY(calc(90deg * var(--i))) translateZ(37.5px);
-            background: linear-gradient(
-                to bottom,
-                hsl(330, 3.13%, 25.1%) 0%,
-                hsl(177.27, 21.71%, 32.06%) 5.5%,
-                hsl(176.67, 34.1%, 36.88%) 12.1%,
-                hsl(176.61, 42.28%, 40.7%) 19.6%,
-                hsl(176.63, 48.32%, 43.88%) 27.9%,
-                hsl(176.66, 53.07%, 46.58%) 36.6%,
-                hsl(176.7, 56.94%, 48.91%) 45.6%,
-                hsl(176.74, 62.39%, 50.91%) 54.6%,
-                hsl(176.77, 69.86%, 52.62%) 63.4%,
-                hsl(176.8, 76.78%, 54.08%) 71.7%,
-                hsl(176.83, 83.02%, 55.29%) 79.4%,
-                hsl(176.85, 88.44%, 56.28%) 86.2%,
-                hsl(176.86, 92.9%, 57.04%) 91.9%,
-                hsl(176.88, 96.24%, 57.59%) 96.3%,
-                hsl(176.88, 98.34%, 57.93%) 99%,
-                hsl(176.89, 99.07%, 58.04%) 100%
-            );
-        }
-
-        .cube-top {
-            position: absolute;
-            width: 75px;
-            height: 75px;
-            background: hsl(330, 3.13%, 25.1%) 0%;
-            transform: rotateX(90deg) translateZ(37.5px);
-            transform-style: preserve-3d;
-        }
-
-        .cube-top::before {
+        .neumorphic-loader:after {
             content: '';
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            box-shadow: inset 8px 8px 16px var(--dark-shadow), 
+                        inset -8px -8px 16px var(--light-shadow);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+
+        .badge {
             position: absolute;
-            width: 75px;
-            height: 75px;
-            background: hsl(176.61, 42.28%, 40.7%) 19.6%;
-            transform: translateZ(-90px);
-            filter: blur(10px);
-            box-shadow: 0 0 10px #323232,
-                        0 0 20px hsl(176.61, 42.28%, 40.7%) 19.6%,
-                        0 0 30px #323232,
-                        0 0 40px hsl(176.61, 42.28%, 40.7%) 19.6%;
+            top: -10px;
+            left: -10px;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-weight: bold;
+            box-shadow: 5px 5px 10px var(--dark-shadow);
+            z-index: 1;
+        }
+
+        @media (max-width: 600px) {
+            .product-details {
+                padding: 20px 15px;
+                border-radius: 15px;
+            }
+            
+            .product-images {
+                gap: 10px;
+            }
+            
+            .product-images img {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .share-button, .book-button {
+                width: 100%;
+            }
+        }
+
+        /* RTL specific styles */
+        [dir="rtl"] .features-list li {
+            padding-right: 0;
+            padding-left: 25px;
+        }
+        
+        [dir="rtl"] .features-list li:before {
+            right: auto;
+            left: 0;
         }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="loader" id="loader">
-        <div class="cube-loader">
-            <div class="cube-top"></div>
-            <div class="cube-wrapper">
-                <span style="--i:0" class="cube-span"></span>
-                <span style="--i:1" class="cube-span"></span>
-                <span style="--i:2" class="cube-span"></span>
-                <span style="--i:3" class="cube-span"></span>
-            </div>
-        </div>
+        <div class="neumorphic-loader"></div>
     </div>
 
     <div class="product-details" id="productDetails">
         <!-- Product details will be rendered here -->
+    </div>
+
+    <div class="full-image-overlay" id="imageOverlay">
+        <span class="close-btn"><i class="fas fa-times"></i></span>
+        <img id="fullImage" src="" alt="صورة المنتج الكامل">
     </div>
 
     <script type="module">
@@ -234,71 +411,130 @@
 
         const loader = document.getElementById('loader');
         const productDetails = document.getElementById('productDetails');
+        const imageOverlay = document.getElementById('imageOverlay');
+        const fullImage = document.getElementById('fullImage');
+        const closeBtn = document.querySelector('.close-btn');
 
         const renderProductDetails = (product) => {
             productDetails.innerHTML = `
+                <div class="product-header">
+                    ${product.isNew ? '<span class="badge">جديد</span>' : ''}
+                    <img src="${product.mainImage}" alt="${product.name}" class="product-main-image">
+                </div>
                 <div class="product-images">
                     ${product.detailImages.map(img => `<img src="${img}" alt="تفاصيل المنتج" class="thumbnail">`).join('')}
                 </div>
-                <video controls>
+                
+                <h2>${product.name}</h2>
+                <p class="product-description">${product.description}</p>
+                
+                ${product.features ? `
+                <ul class="features-list">
+                    ${product.features.map(feature => `<li>${feature}</li>`).join('')}
+                </ul>
+                ` : ''}
+                
+                ${product.video ? `
+                <video controls poster="${product.videoThumbnail || ''}">
                     <source src="${product.video}" type="video/mp4">
                     متصفحك لا يدعم تشغيل الفيديو.
                 </video>
-                <h2>${product.name}</h2>
-                <p>${product.description}</p>
+                ` : ''}
+                
                 <p class="product-price">${product.price} دينار</p>
+                
                 <div class="contact-info">
-                    <a href="tel:07711272744">اتصل الآن</a>
-                    <a href="https://wa.me/+96407711272744">راسلنا على الواتساب</a>
+                    <a href="tel:07711272744">
+                        <i class="fas fa-phone"></i>
+                        اتصل الآن
+                    </a>
+                    <a href="https://wa.me/+96407711272744">
+                        <i class="fab fa-whatsapp"></i>
+                        راسلنا على الواتساب
+                    </a>
                 </div>
-                <button class="share-button" id="shareButton">مشاركة</button>
-                <button class="book-button" onclick="window.location.href='https://sajad114.github.io/SUPERMA/?id=${productId}'">حجز الآن</button>
+                
+                <div class="action-buttons">
+                    <button class="share-button" id="shareButton">
+                        <i class="fas fa-share-alt"></i>
+                        مشاركة
+                    </button>
+                    <button class="book-button" onclick="window.location.href='https://sajad114.github.io/SUPERMA/?id=${productId}'">
+                        <i class="fas fa-shopping-cart"></i>
+                        حجز الآن
+                    </button>
+                </div>
             `;
+            
             productDetails.style.display = 'block';
             loader.style.display = 'none';
 
-            const thumbnails = document.querySelectorAll('.thumbnail');
-            thumbnails.forEach(thumbnail => {
+            // Add event listeners to thumbnails
+            document.querySelectorAll('.thumbnail').forEach(thumbnail => {
                 thumbnail.addEventListener('click', () => {
-                    openFullImage(thumbnail.src);
+                    fullImage.src = thumbnail.src;
+                    imageOverlay.classList.add('active');
                 });
             });
 
+            // Add event listener to main image
+            document.querySelector('.product-main-image').addEventListener('click', () => {
+                fullImage.src = document.querySelector('.product-main-image').src;
+                imageOverlay.classList.add('active');
+            });
+
+            // Share button functionality
             document.getElementById('shareButton').addEventListener('click', shareProduct);
         };
 
-        const openFullImage = (src) => {
-            const overlay = document.createElement('div');
-            overlay.className = 'full-image-overlay';
-            overlay.innerHTML = `<img src="${src}" alt="صورة المنتج الكامل">`;
-            overlay.addEventListener('click', () => {
-                overlay.remove();
-            });
-            document.body.appendChild(overlay);
-        };
+        // Close full image overlay
+        closeBtn.addEventListener('click', () => {
+            imageOverlay.classList.remove('active');
+        });
+
+        imageOverlay.addEventListener('click', (e) => {
+            if (e.target === imageOverlay) {
+                imageOverlay.classList.remove('active');
+            }
+        });
 
         const shareProduct = () => {
             const shareData = {
-                title: 'https://i.imgur.com/X91HWMc.jpg',
-                text: `تفاصيل المنتج`,
+                title: productDetails.querySelector('h2').textContent,
+                text: `تحقق من هذا المنتج: ${productDetails.querySelector('h2').textContent}`,
                 url: window.location.href
             };
+            
             if (navigator.share) {
                 navigator.share(shareData).catch(console.error);
             } else {
-                alert('المشاركة غير مدعومة في هذا المتصفح.');
+                // Fallback for browsers that don't support Web Share API
+                const shareUrl = `whatsapp://send?text=${encodeURIComponent(shareData.text + ' ' + shareData.url)}`;
+                window.location.href = shareUrl;
             }
         };
 
+        // Fetch product data
         get(ref(db, `products/${productId}`)).then((snapshot) => {
             if (snapshot.exists()) {
                 renderProductDetails(snapshot.val());
             } else {
-                console.log("No data available");
+                productDetails.innerHTML = `
+                    <h2>المنتج غير موجود</h2>
+                    <p>عذراً، المنتج الذي تبحث عنه غير متوفر حالياً.</p>
+                `;
+                productDetails.style.display = 'block';
+                loader.style.display = 'none';
             }
         }).catch((error) => {
             console.error(error);
+            productDetails.innerHTML = `
+                <h2>حدث خطأ</h2>
+                <p>عذراً، حدث خطأ أثناء تحميل بيانات المنتج.</p>
+            `;
+            productDetails.style.display = 'block';
+            loader.style.display = 'none';
         });
-        </script>
-        </body>
-        </html>
+    </script>
+</body>
+</html>
