@@ -6,176 +6,156 @@
     <title>لوحة تحكم المتجر</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background: #e0e0e0;
-            margin: 0;
-            padding: 0;
-        }
+            /* إعدادات أساسية */
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700&display=swap');
 
-        .admin-panel, .login-form {
-            background: #f0f0f0;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 10px 10px 20px #bebebe, -10px -10px 20px #ffffff;
-            max-width: 800px;
-            width: 90%;
-            margin: 20px auto;
-            position: relative;
-            display: none;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        .top-bar {
-            position: sticky;
-            top: 0;
-            background: #f0f0f0;
-            z-index: 1000;
-            padding: 10px;
-            border-bottom: 1px solid #ccc;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            border-radius: 10px 10px 0 0;
-        }
+body {
+    font-family: 'Tajawal', sans-serif;
+    direction: rtl;
+    text-align: right;
+    background: #e0e5ec;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
 
-        .admin-panel h2, .login-form h2 {
-            margin: 0;
-            text-align: center;
-        }
+/* الحاوية الرئيسية */
+.container {
+    width: 90%;
+    max-width: 500px;
+    background: #e0e5ec;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 8px 8px 16px #babecc, -8px -8px 16px #ffffff;
+    text-align: center;
+}
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+/* العناوين */
+h2, h3 {
+    color: #333;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
+/* إدخال البيانات */
+input, textarea, button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    font-size: 16px;
+    background: #e0e5ec;
+    box-shadow: inset 5px 5px 10px #babecc, inset -5px -5px 10px #ffffff;
+    transition: 0.3s;
+}
 
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            box-shadow: inset 5px 5px 10px #bebebe, inset -5px -5px 10px #ffffff;
-            font-size: 16px;
-        }
+/* تأثير عند التفاعل */
+input:focus, textarea:focus {
+    box-shadow: inset 3px 3px 6px #babecc, inset -3px -3px 6px #ffffff;
+}
 
-        .form-group textarea {
-            resize: vertical;
-            height: 100px;
-        }
+/* زر الإضافة */
+button {
+    background: #28a745;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px #babecc, -5px -5px 10px #ffffff;
+    transition: 0.3s;
+}
 
-        .form-group button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background: #00b300;
-            color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-            box-shadow: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
-        }
+/* تأثير الضغط على الزر */
+button:active {
+    box-shadow: inset 3px 3px 6px #babecc, inset -3px -3px 6px #ffffff;
+}
 
-        .product-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+/* شريط التحميل */
+#progressBarContainer {
+    width: 100%;
+    background: #e0e5ec;
+    border-radius: 10px;
+    margin-top: 15px;
+    display: none;
+    box-shadow: inset 5px 5px 10px #babecc, inset -5px -5px 10px #ffffff;
+}
 
-        .product-table th, .product-table td {
-            padding: 10px;
-            border: 1px solid #ccc;
-            text-align: left;
-        }
+#progressBar {
+    width: 0%;
+    height: 12px;
+    border-radius: 10px;
+    background: #28a745;
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+}
 
-        .loader {
-            width: 50px;
-            height: 50px;
-            background: #3498db;
-            animation: rotate 2s linear infinite;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: none;
-        }
+/* رسالة الإشعار */
+#message {
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: bold;
+}
 
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+/* قائمة المنتجات */
+#productsList {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    background: #e0e5ec;
+    box-shadow: inset 5px 5px 10px #babecc, inset -5px -5px 10px #ffffff;
+}
 
-        .progress-bar-container {
-            width: 100%;
-            background: #e0e0e0;
-            border-radius: 10px;
-            box-shadow: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
-            margin: 20px 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+/* كل منتج */
+.product-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    transition: 0.3s;
+}
 
-        .progress-bar {
-            width: 0;
-            height: 20px;
-            background: #3498db;
-            border-radius: 10px;
-            box-shadow: inset 5px 5px 10px #bebebe, inset -5px -5px 10px #ffffff;
-            text-align: center;
-            line-height: 20px;
-            color: white;
-            font-weight: bold;
-        }
+.product-item img {
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 6px #babecc, -3px -3px 6px #ffffff;
+    margin-left: 15px;
+}
 
-        .alert {
-            padding: 20px;
-            background-color: #f44336;
-            color: white;
-            margin-bottom: 15px;
-        }
+.product-item p {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
 
-        .alert.success {background-color: #4CAF50;}
-        .alert.info {background-color: #2196F3;}
-        .alert.warning {background-color: #ff9800;}
+/* تأثير عند المرور على المنتج */
+.product-item:hover {
+    transform: scale(1.02);
+    box-shadow: 5px 5px 10px #babecc, -5px -5px 10px #ffffff;
+}
 
-        .closebtn {
-            margin-left: 15px;
-            color: white;
-            font-weight: bold;
-            float: right;
-            font-size: 22px;
-            line-height: 20px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+/* 🎯 تحسين التجاوب للأجهزة الصغيرة */
+@media (max-width: 600px) {
+    .container {
+        width: 95%;
+        padding: 20px;
+    }
 
-        .closebtn:hover {
-            color: black;
-        }
-
-        .search-bar {
-            margin-bottom: 15px;
-        }
-
-        .search-bar input {
-            width: calc(100% - 22px);
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            box-shadow: inset 5px 5px 10px #bebebe, inset -5px -5px 10px #ffffff;
-            font-size: 16px;
-        }
-
-        .search-bar button {
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background: #00b300;
-            color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-            box-shadow: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
-            margin-left: 10px;
-        }
+    .product-item img {
+        width: 50px;
+        height: 50px;
+    }
+}
     </style>
     <!-- DataTables CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
