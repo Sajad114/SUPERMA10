@@ -20,13 +20,13 @@
             --text-color: #fff;
             --light-text: rgba(255, 255, 255, 0.8);
             --dark-text: #333;
-            --card-bg: rgba(255, 255, 255, 0.1);
-            --card-radius: 18px;
-            --blur: blur(12px);
+            --card-bg: rgba(255, 255, 255, 0.37);
+            --card-radius: 16px;
+            --blur: blur(9.3px);
             --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             --nav-height: 80px;
             --border: 1px solid rgba(255, 255, 255, 0.25);
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            --shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
 
         * {
@@ -41,9 +41,21 @@
             color: var(--text-color);
             min-height: 100vh;
             padding-top: var(--nav-height);
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat fixed;
             background-attachment: fixed;
             line-height: 1.6;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+            z-index: -1;
         }
 
         /* تحسينات شريط التنقل */
@@ -53,7 +65,7 @@
             right: 0;
             width: 100%;
             height: var(--nav-height);
-            background: var(--bg-color);
+            background: var(--card-bg);
             backdrop-filter: var(--blur);
             -webkit-backdrop-filter: var(--blur);
             display: flex;
@@ -133,7 +145,7 @@
             cursor: pointer;
             transition: var(--transition);
             position: relative;
-            background: var(--bg-color);
+            background: var(--card-bg);
             backdrop-filter: var(--blur);
             -webkit-backdrop-filter: var(--blur);
             border: var(--border);
@@ -577,7 +589,7 @@
 
         /* تحسينات التذييل */
         footer {
-            background: var(--bg-color);
+            background: var(--card-bg);
             backdrop-filter: var(--blur);
             -webkit-backdrop-filter: var(--blur);
             padding: 60px 5% 30px;
@@ -1549,6 +1561,233 @@
             transform: translateY(-3px);
         }
 
+        /* نافذة سياسات الخدمة */
+        .policy-modal {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .policy-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .policy-content {
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: var(--card-bg);
+            backdrop-filter: var(--blur);
+            -webkit-backdrop-filter: var(--blur);
+            border-radius: var(--card-radius);
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+            transform: translateY(20px);
+            transition: all 0.4s;
+        }
+
+        .policy-modal.show .policy-content {
+            transform: translateY(0);
+        }
+
+        .close-policy {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--light-text);
+            transition: var(--transition);
+            width: 45px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+        }
+
+        .close-policy:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+        }
+
+        .policy-title {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            text-align: center;
+            color: var(--primary-color);
+        }
+
+        .policy-text {
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: var(--light-text);
+        }
+
+        .policy-section {
+            margin-bottom: 30px;
+        }
+
+        .policy-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-color);
+            position: relative;
+            padding-right: 15px;
+        }
+
+        .policy-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            right: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        /* قسم التعليقات والتقييمات */
+        .reviews-section {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: var(--border);
+        }
+
+        .review-form {
+            background: var(--card-bg);
+            backdrop-filter: var(--blur);
+            -webkit-backdrop-filter: var(--blur);
+            border-radius: var(--card-radius);
+            padding: 25px;
+            margin-bottom: 30px;
+            border: var(--border);
+        }
+
+        .review-form h3 {
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .rating-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            direction: ltr;
+        }
+
+        .rating-input i {
+            font-size: 1.5rem;
+            color: var(--light-text);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .rating-input i.active {
+            color: var(--accent-color);
+        }
+
+        .review-textarea {
+            width: 100%;
+            padding: 15px;
+            background: var(--bg-color);
+            backdrop-filter: var(--blur);
+            -webkit-backdrop-filter: var(--blur);
+            border: var(--border);
+            border-radius: 8px;
+            color: var(--text-color);
+            font-family: 'Tajawal', Arial, sans-serif;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .submit-review {
+            padding: 12px 25px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: bold;
+        }
+
+        .submit-review:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+
+        .reviews-list {
+            margin-top: 30px;
+        }
+
+        .review-item {
+            background: var(--card-bg);
+            backdrop-filter: var(--blur);
+            -webkit-backdrop-filter: var(--blur);
+            border-radius: var(--card-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            border: var(--border);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .review-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar-small {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+        }
+
+        .user-name {
+            font-weight: bold;
+        }
+
+        .review-date {
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+
+        .review-rating {
+            color: var(--accent-color);
+            direction: ltr;
+        }
+
+        .review-content {
+            line-height: 1.6;
+            color: var(--light-text);
+        }
+
         /* التكيف مع الشاشات الصغيرة */
         @media (max-width: 1200px) {
             .product-detail-container {
@@ -1653,6 +1892,10 @@
             .add-to-cart-detail {
                 justify-content: center;
             }
+            
+            .policy-content {
+                padding: 30px 20px;
+            }
         }
 
         @media (max-width: 576px) {
@@ -1699,6 +1942,10 @@
             
             .main-image-container {
                 height: 250px;
+            }
+            
+            .policy-title {
+                font-size: 1.5rem;
             }
         }
     </style>
@@ -1767,33 +2014,18 @@
             </div>
         </section>
 
-        <!-- قسم المنتجات المميزة -->
+        <!-- قسم جميع المنتجات -->
         <section>
             <div class="section-header">
-                <h2 class="section-title">منتجاتنا المميزة</h2>
+                <h2 class="section-title">جميع المنتجات</h2>
                 <a href="products.html" class="section-link">
                     عرض الكل
                     <i class="fas fa-arrow-left"></i>
                 </a>
             </div>
             
-            <div class="products-grid" id="featuredProducts">
-                <!-- سيتم إضافة المنتجات المميزة هنا -->
-            </div>
-        </section>
-
-        <!-- قسم العروض الخاصة -->
-        <section>
-            <div class="section-header">
-                <h2 class="section-title">العروض الخاصة</h2>
-                <a href="offers.html" class="section-link">
-                    عرض الكل
-                    <i class="fas fa-arrow-left"></i>
-                </a>
-            </div>
-            
-            <div class="products-grid" id="offerProducts">
-                <!-- سيتم إضافة المنتجات المعروضة هنا -->
+            <div class="products-grid" id="allProducts">
+                <!-- سيتم إضافة جميع المنتجات هنا -->
             </div>
         </section>
     </div>
@@ -1813,24 +2045,13 @@
             </div>
             
             <div class="footer-column">
-                <h3>روابط سريعة</h3>
-                <ul class="footer-links">
-                    <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
-                    <li><a href="products.html"><i class="fas fa-box-open"></i> المنتجات</a></li>
-                    <li><a href="offers.html"><i class="fas fa-tag"></i> العروض</a></li>
-                    <li><a href="about.html"><i class="fas fa-info-circle"></i> من نحن</a></li>
-                    <li><a href="contact.html"><i class="fas fa-phone-alt"></i> اتصل بنا</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-column">
                 <h3>خدمة العملاء</h3>
                 <ul class="footer-links">
-                    <li><a href="#"><i class="fas fa-question-circle"></i> الأسئلة الشائعة</a></li>
-                    <li><a href="#"><i class="fas fa-exchange-alt"></i> سياسة الإرجاع</a></li>
-                    <li><a href="#"><i class="fas fa-truck"></i> سياسة الشحن</a></li>
-                    <li><a href="#"><i class="fas fa-lock"></i> سياسة الخصوصية</a></li>
-                    <li><a href="#"><i class="fas fa-file-alt"></i> الشروط والأحكام</a></li>
+                    <li><a href="#" id="faqLink"><i class="fas fa-question-circle"></i> الأسئلة الشائعة</a></li>
+                    <li><a href="#" id="returnPolicyLink"><i class="fas fa-exchange-alt"></i> سياسة الإرجاع</a></li>
+                    <li><a href="#" id="shippingPolicyLink"><i class="fas fa-truck"></i> سياسة الشحن</a></li>
+                    <li><a href="#" id="privacyPolicyLink"><i class="fas fa-lock"></i> سياسة الخصوصية</a></li>
+                    <li><a href="#" id="termsLink"><i class="fas fa-file-alt"></i> الشروط والأحكام</a></li>
                 </ul>
             </div>
             
@@ -1886,13 +2107,9 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="customerAddress">العنوان</label>
-                        <textarea id="customerAddress" class="form-control" rows="3" required></textarea>
-                    </div>
-                    
-                    <div class="form-group">
+                        <label>العنوان</label>
                         <button type="button" class="location-btn" id="detectLocationBtn">
-                            <i class="fas fa-map-marker-alt"></i> تحديد الموقع تلقائياً
+                            <i class="fas fa-map-marker-alt"></i> تحديد الموقع على الخريطة
                         </button>
                         <div class="map-container">
                             <div id="addressMap"></div>
@@ -2003,13 +2220,9 @@
                     
                     <div class="product-detail-meta">
                         <div class="product-detail-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <span class="product-detail-reviews">(42 تقييم)</span>
+                            <!-- سيتم إضافة النجوم حسب التقييم -->
                         </div>
+                        <span class="product-detail-reviews" id="productReviewsCount"></span>
                     </div>
                     
                     <div class="product-detail-price">
@@ -2040,7 +2253,41 @@
                             <!-- سيتم إضافة المواصفات هنا -->
                         </table>
                     </div>
+                    
+                    <!-- قسم التقييمات والتعليقات -->
+                    <div class="reviews-section">
+                        <h3 class="specs-title">التقييمات والتعليقات</h3>
+                        
+                        <div class="review-form">
+                            <h3>أضف تقييمك</h3>
+                            <div class="rating-input" id="ratingInput">
+                                <i class="fas fa-star" data-rating="1"></i>
+                                <i class="fas fa-star" data-rating="2"></i>
+                                <i class="fas fa-star" data-rating="3"></i>
+                                <i class="fas fa-star" data-rating="4"></i>
+                                <i class="fas fa-star" data-rating="5"></i>
+                            </div>
+                            <textarea class="review-textarea" id="reviewText" placeholder="شاركنا رأيك عن المنتج..."></textarea>
+                            <button class="submit-review" id="submitReview">إرسال التقييم</button>
+                        </div>
+                        
+                        <div class="reviews-list" id="reviewsList">
+                            <!-- سيتم إضافة التقييمات هنا -->
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة سياسات الخدمة -->
+    <div class="policy-modal" id="policyModal">
+        <div class="policy-content">
+            <button class="close-policy" id="closePolicy">&times;</button>
+            <h2 class="policy-title" id="policyTitle">سياسة الخدمة</h2>
+            
+            <div id="policyContent">
+                <!-- سيتم تعبئة المحتوى هنا ديناميكيًا -->
             </div>
         </div>
     </div>
@@ -2069,8 +2316,6 @@
 
         // متغيرات التطبيق
         let allProducts = [];
-        let featuredProducts = [];
-        let offerProducts = [];
         let categories = new Set(['all']);
         let cartItems = [];
         let currentUser = null;
@@ -2078,10 +2323,10 @@
         let userMarker;
         let selectedProduct = null;
         let productQuantity = 1;
+        let selectedRating = 0;
 
         // عناصر DOM
-        const featuredProductsContainer = document.getElementById('featuredProducts');
-        const offerProductsContainer = document.getElementById('offerProducts');
+        const allProductsContainer = document.getElementById('allProducts');
         const categoryFilter = document.getElementById('categoryFilter');
         const cartCount = document.getElementById('cartCount');
         const floatingCart = document.getElementById('floatingCart');
@@ -2121,6 +2366,163 @@
         const wishlistBtn = document.getElementById('wishlistBtn');
         const detectLocationBtn = document.getElementById('detectLocationBtn');
         const addressMap = document.getElementById('addressMap');
+        const productReviewsCount = document.getElementById('productReviewsCount');
+        const ratingInput = document.getElementById('ratingInput');
+        const reviewText = document.getElementById('reviewText');
+        const submitReview = document.getElementById('submitReview');
+        const reviewsList = document.getElementById('reviewsList');
+        const policyModal = document.getElementById('policyModal');
+        const closePolicy = document.getElementById('closePolicy');
+        const policyTitle = document.getElementById('policyTitle');
+        const policyContent = document.getElementById('policyContent');
+        const faqLink = document.getElementById('faqLink');
+        const returnPolicyLink = document.getElementById('returnPolicyLink');
+        const shippingPolicyLink = document.getElementById('shippingPolicyLink');
+        const privacyPolicyLink = document.getElementById('privacyPolicyLink');
+        const termsLink = document.getElementById('termsLink');
+
+        // سياسات الخدمة
+        const policies = {
+            faq: {
+                title: "الأسئلة الشائعة",
+                content: `
+                    <div class="policy-section">
+                        <h3>كيفية الطلب</h3>
+                        <p class="policy-text">
+                            1. اختر المنتجات التي ترغب في شرائها وأضفها إلى سلة التسوق.<br>
+                            2. انتقل إلى سلة التسوق واطلع على تفاصيل طلبك.<br>
+                            3. املأ معلومات التوصيل والدفع.<br>
+                            4. تأكيد الطلب وانتظار رسالة التأكيد.
+                        </p>
+                    </div>
+                    
+                    <div class="policy-section">
+                        <h3>طرق الدفع</h3>
+                        <p class="policy-text">
+                            نقبل الدفع نقداً عند الاستلام أو عبر البطاقات الائتمانية. 
+                            جميع عمليات الدفع الإلكترونية تتم عبر بوابات دفع آمنة ومشفرة.
+                        </p>
+                    </div>
+                    
+                    <div class="policy-section">
+                        <h3>مدة التوصيل</h3>
+                        <p class="policy-text">
+                            تتراوح مدة التوصيل بين 1-3 أيام عمل داخل المدينة، و3-7 أيام للمدن الأخرى.
+                            قد تختلف المدة حسب المنطقة والظروف الجوية.
+                        </p>
+                    </div>
+                `
+            },
+            returnPolicy: {
+                title: "سياسة الإرجاع والاستبدال",
+                content: `
+                    <div class="policy-section">
+                        <h3>شروط الإرجاع</h3>
+                        <p class="policy-text">
+                            - يمكنك إرجاع المنتج خلال 14 يومًا من تاريخ الاستلام.<br>
+                            - يجب أن يكون المنتج في حالته الأصلية وبعبواته الأصلية.<br>
+                            - لا يمكن إرجاع المنتجات المستهلكة أو التالفة بسبب سوء الاستخدام.<br>
+                            - يجب تقديم فاتورة الشراء عند إرجاع المنتج.
+                        </p>
+                    </div>
+                    
+                    <div class="policy-section">
+                        <h3>إجراءات الإرجاع</h3>
+                        <p class="policy-text">
+                            1. اتصل بخدمة العملاء للإبلاغ عن رغبتك في الإرجاع.<br>
+                            2. سنقوم بتحديد موعد لاستلام المنتج من عنوانك.<br>
+                            3. بعد فحص المنتج، سيتم اعتماد الإرجاع أو الاستبدال.<br>
+                            4. سيتم إعادة المبلغ خلال 3-5 أيام عمل من تاريخ اعتماد الإرجاع.
+                        </p>
+                    </div>
+                `
+            },
+            shippingPolicy: {
+                title: "سياسة الشحن والتوصيل",
+                content: `
+                    <div class="policy-section">
+                        <h3>مناطق التوصيل</h3>
+                        <p class="policy-text">
+                            نقوم بالتوصيل لجميع مناطق المدينة وأحيائها. 
+                            بالنسبة للمدن الأخرى، يرجى التأكد من توفر خدمة التوصيل في منطقتك قبل إتمام الطلب.
+                        </p>
+                    </div>
+                    
+                    <div class="policy-section">
+                        <h3>تكلفة التوصيل</h3>
+                        <p class="policy-text">
+                            - توصيل مجاني للطلبات فوق 50,000 دينار داخل المدينة.<br>
+                            - تكلفة التوصيل 5,000 دينار للطلبات الأقل من 50,000 دينار.<br>
+                            - تكلفة التوصيل للمدن الأخرى تبدأ من 10,000 دينار حسب المنطقة.
+                        </p>
+                    </div>
+                    
+                    <div class="policy-section">
+                        <h3>تتبع الشحنة</h3>
+                        <p class="policy-text">
+                            بعد تأكيد الطلب، سيتم إرسال رقم تتبع الشحنة إلى بريدك الإلكتروني ورقم هاتفك.
+                            يمكنك استخدام هذا الرقم لتتبع حالة شحنتك عبر موقعنا أو عبر تطبيق التوصيل.
+                        </p>
+                    </div>
+                `
+            },
+            privacyPolicy: {
+                title: "سياسة الخصوصية",
+                content: `
+                    <div class="policy-section">
+                        <h3>جمع المعلومات</h3>
+                        <p class="policy-text">
+                            نجمع المعلومات التي تزودنا بها عند التسجيل أو الشراء أو الاشتراك في النشرة البريدية.
+                            قد تشمل هذه المعلومات اسمك، عنوانك، بريدك الإلكتروني، ورقم هاتفك.
+                        </p>
+                    </div>
+                    
+                    <div class="policy-section">
+                        <h3>استخدام المعلومات</h3>
+                        <p class="policy-text">
+                            نستخدم المعلومات التي نجمعها لمعالجة طلباتك، تحسين تجربة التسوق لديك، 
+                            وإرسال تحديثات وعروض خاصة قد تهمك. نحن لا نبيع أو نشارك معلوماتك مع أطراف ثالثة.
+                        </p>
+                    </div>
+                    
+                    <div class="policy-section">
+                        <h3>حماية المعلومات</h3>
+                        <p class="policy-text">
+                            نستخدم تقنيات تشفير متقدمة لحماية معلوماتك الشخصية أثناء نقلها وتخزينها.
+                            ومع ذلك، لا يمكن ضمان أمان كامل لأي طريقة نقل عبر الإنترنت أو تخزين إلكتروني.
+                        </p>
+                    </div>
+                `
+            },
+            terms: {
+                title: "الشروط والأحكام",
+                content: `
+                    <div class="policy-section">
+                        <h3>شروط الاستخدام</h3>
+                        <p class="policy-text">
+                            باستخدامك لهذا الموقع، فإنك توافق على الالتزام بهذه الشروط والأحكام.
+                            نحن نحتفظ بالحق في تعديل هذه الشروط في أي وقت دون إشعار مسبق.
+                        </p>
+                    </div>
+                    
+                    <div class="policy-section">
+                        <h3>الملكية الفكرية</h3>
+                        <p class="policy-text">
+                            جميع المحتويات الموجودة على هذا الموقع، بما في ذلك النصوص والصور والشعارات،
+                            هي ملك لنا أو للموردين لدينا ومحمية بقوانين الملكية الفكرية.
+                        </p>
+                    </div>
+                    
+                    <div class="policy-section">
+                        <h3>الضمان والمسؤولية</h3>
+                        <p class="policy-text">
+                            نحن نضمن جودة المنتجات المباعة ونقدم ضمانًا ضد عيوب التصنيع.
+                            ومع ذلك، نحن لسنا مسؤولين عن الأضرار الناتجة عن سوء الاستخدام أو التعديلات على المنتج.
+                        </p>
+                    </div>
+                `
+            }
+        };
 
         // تحميل بيانات السلة من localStorage
         const loadCart = () => {
@@ -2237,21 +2639,12 @@
             }
         };
 
-        // عرض المنتجات المميزة
-        const renderFeaturedProducts = () => {
-            featuredProductsContainer.innerHTML = '';
+        // عرض جميع المنتجات
+        const renderAllProducts = () => {
+            allProductsContainer.innerHTML = '';
             
-            featuredProducts.forEach(product => {
-                renderProductCard(product, featuredProductsContainer);
-            });
-        };
-
-        // عرض المنتجات المعروضة
-        const renderOfferProducts = () => {
-            offerProductsContainer.innerHTML = '';
-            
-            offerProducts.forEach(product => {
-                renderProductCard(product, offerProductsContainer);
+            allProducts.forEach(product => {
+                renderProductCard(product, allProductsContainer);
             });
         };
 
@@ -2273,6 +2666,10 @@
                 originalPrice = `<span class="original-price">${product.originalPrice} دينار</span>`;
             }
             
+            // حساب متوسط التقييم
+            const averageRating = product.reviews ? 
+                (product.reviews.reduce((sum, review) => sum + review.rating, 0) / product.reviews.length) : 0;
+            
             productCard.innerHTML = `
                 ${badge}
                 <div class="product-image-container">
@@ -2280,11 +2677,7 @@
                 </div>
                 <h3 class="product-name">${product.name}</h3>
                 <div class="product-rating">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star-half-alt"></i>
+                    ${renderRatingStars(averageRating)}
                 </div>
                 <div class="product-price">
                     <span class="current-price">${product.price} دينار</span>
@@ -2317,6 +2710,25 @@
             productCard.addEventListener('click', () => {
                 showProductDetail(product.id);
             });
+        };
+
+        // عرض نجوم التقييم
+        const renderRatingStars = (rating) => {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            
+            for (let i = 1; i <= 5; i++) {
+                if (i <= fullStars) {
+                    stars += '<i class="fas fa-star"></i>';
+                } else if (i === fullStars + 1 && hasHalfStar) {
+                    stars += '<i class="fas fa-star-half-alt"></i>';
+                } else {
+                    stars += '<i class="far fa-star"></i>';
+                }
+            }
+            
+            return stars;
         };
 
         // إضافة إلى السلة
@@ -2352,6 +2764,7 @@
             
             selectedProduct = product;
             productQuantity = 1;
+            selectedRating = 0;
             
             // تعبئة بيانات المنتج
             productDetailTitle.textContent = product.name;
@@ -2417,11 +2830,62 @@
                 productSpecs.appendChild(row);
             }
             
+            // تعبئة التقييمات
+            const reviews = product.reviews || [];
+            const averageRating = reviews.length ? 
+                (reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length) : 0;
+            
+            document.querySelector('.product-detail-rating').innerHTML = renderRatingStars(averageRating);
+            productReviewsCount.textContent = reviews.length ? `(${reviews.length} تقييم)` : '(لا توجد تقييمات بعد)';
+            
+            // تعبئة قسم التعليقات
+            renderProductReviews(reviews);
+            
             // تحديث الكمية
             productQuantityEl.textContent = productQuantity;
             
             // عرض النافذة
             productDetailModal.classList.add('show');
+        };
+
+        // عرض تقييمات المنتج
+        const renderProductReviews = (reviews) => {
+            reviewsList.innerHTML = '';
+            
+            if (reviews.length === 0) {
+                reviewsList.innerHTML = `
+                    <div style="text-align: center; color: var(--light-text); padding: 30px 0;">
+                        <i class="fas fa-comment-slash" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                        <p>لا توجد تقييمات لهذا المنتج بعد. كن أول من يقيم!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            reviews.forEach(review => {
+                const reviewItem = document.createElement('div');
+                reviewItem.className = 'review-item';
+                reviewItem.innerHTML = `
+                    <div class="review-header">
+                        <div class="review-user">
+                            <img src="${review.userAvatar || 'https://via.placeholder.com/40'}" 
+                                 alt="${review.userName}" class="user-avatar-small">
+                            <div>
+                                <div class="user-name">${review.userName}</div>
+                                <div class="review-date">${review.date}</div>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            ${renderRatingStars(review.rating)}
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        ${review.comment}
+                    </div>
+                `;
+                
+                reviewsList.appendChild(reviewItem);
+            });
         };
 
         // إدارة الكمية
@@ -2553,18 +3017,6 @@
                                 .bindPopup('موقعك الحالي')
                                 .openPopup();
                         }
-                        
-                        // الحصول على اسم الشارع (Geocoding)
-                        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`)
-                            .then(response => response.json())
-                            .then(data => {
-                                const address = data.display_name || 'موقعك الحالي';
-                                document.getElementById('customerAddress').value = address;
-                            })
-                            .catch(error => {
-                                console.error('Geocoding error:', error);
-                                document.getElementById('customerAddress').value = `${latitude}, ${longitude}`;
-                            });
                     },
                     (error) => {
                         console.error('Geolocation error:', error);
@@ -2598,18 +3050,6 @@
                         .bindPopup('موقع التوصيل')
                         .openPopup();
                 }
-                
-                // الحصول على اسم الشارع (Geocoding)
-                fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        const address = data.display_name || 'موقع التوصيل';
-                        document.getElementById('customerAddress').value = address;
-                    })
-                    .catch(error => {
-                        console.error('Geocoding error:', error);
-                        document.getElementById('customerAddress').value = `${lat}, ${lng}`;
-                    });
             });
         };
 
@@ -2617,8 +3057,6 @@
         const fetchData = () => {
             onValue(ref(db, 'products'), (snapshot) => {
                 allProducts = [];
-                featuredProducts = [];
-                offerProducts = [];
                 categories = new Set(['all']);
                 
                 snapshot.forEach(childSnapshot => {
@@ -2627,15 +3065,6 @@
                         ...childSnapshot.val() 
                     };
                     allProducts.push(product);
-                    
-                    // تصنيف المنتجات
-                    if (product.isFeatured) {
-                        featuredProducts.push(product);
-                    }
-                    
-                    if (product.discount || product.isOffer) {
-                        offerProducts.push(product);
-                    }
                     
                     // جمع الأقسام
                     if (product.category) {
@@ -2646,9 +3075,8 @@
                 // عرض أزرار الأقسام
                 renderCategories();
                 
-                // عرض المنتجات
-                renderFeaturedProducts();
-                renderOfferProducts();
+                // عرض جميع المنتجات
+                renderAllProducts();
                 
                 // تحميل السلة
                 loadCart();
@@ -2676,13 +3104,13 @@
                     
                     // تصفية المنتجات حسب القسم
                     if (category === 'all') {
-                        renderFeaturedProducts();
+                        renderAllProducts();
                     } else {
-                        const filtered = featuredProducts.filter(p => p.category === category);
-                        featuredProductsContainer.innerHTML = '';
+                        const filtered = allProducts.filter(p => p.category === category);
+                        allProductsContainer.innerHTML = '';
                         
                         if (filtered.length === 0) {
-                            featuredProductsContainer.innerHTML = `
+                            allProductsContainer.innerHTML = `
                                 <div class="no-products" style="grid-column: 1 / -1; text-align: center; padding: 40px 0;">
                                     <i class="fas fa-box-open" style="font-size: 3rem; color: var(--light-text); margin-bottom: 15px;"></i>
                                     <h3>لا توجد منتجات في هذا القسم</h3>
@@ -2690,7 +3118,7 @@
                             `;
                         } else {
                             filtered.forEach(product => {
-                                renderProductCard(product, featuredProductsContainer);
+                                renderProductCard(product, allProductsContainer);
                             });
                         }
                     }
@@ -2722,6 +3150,76 @@
                 } else {
                     userIcon.innerHTML = '<i class="fas fa-user"></i>';
                     userIcon.title = 'تسجيل الدخول';
+                }
+            });
+        };
+
+        // عرض سياسة الخدمة
+        const showPolicy = (policyKey) => {
+            const policy = policies[policyKey];
+            if (!policy) return;
+            
+            policyTitle.textContent = policy.title;
+            policyContent.innerHTML = policy.content;
+            policyModal.classList.add('show');
+        };
+
+        // إضافة تقييم للمنتج
+        const addProductReview = () => {
+            if (!selectedProduct) return;
+            
+            if (!currentUser) {
+                showAlert('يجب تسجيل الدخول لإضافة تقييم');
+                authModal.classList.add('show');
+                return;
+            }
+            
+            if (selectedRating === 0) {
+                showAlert('الرجاء اختيار تقييم من 1 إلى 5 نجوم');
+                return;
+            }
+            
+            if (!reviewText.value.trim()) {
+                showAlert('الرجاء إضافة تعليقك عن المنتج');
+                return;
+            }
+            
+            const review = {
+                userId: currentUser.uid,
+                userName: currentUser.displayName || 'مستخدم',
+                userAvatar: currentUser.photoURL || null,
+                rating: selectedRating,
+                comment: reviewText.value.trim(),
+                date: new Date().toLocaleDateString('ar-EG')
+            };
+            
+            const productRef = ref(db, `products/${selectedProduct.id}/reviews`);
+            push(productRef, review)
+                .then(() => {
+                    showAlert('شكراً لتقييمك! تم إضافة تعليقك بنجاح');
+                    reviewText.value = '';
+                    selectedRating = 0;
+                    updateRatingStars();
+                    
+                    // إعادة تحميل تفاصيل المنتج لرؤية التقييم الجديد
+                    showProductDetail(selectedProduct.id);
+                })
+                .catch((error) => {
+                    console.error('Error adding review:', error);
+                    showAlert('حدث خطأ أثناء إضافة التقييم، يرجى المحاولة مرة أخرى');
+                });
+        };
+
+        // تحديث عرض نجوم التقييم
+        const updateRatingStars = () => {
+            const stars = ratingInput.querySelectorAll('i');
+            stars.forEach((star, index) => {
+                if (index < selectedRating) {
+                    star.classList.remove('far');
+                    star.classList.add('fas');
+                } else {
+                    star.classList.remove('fas');
+                    star.classList.add('far');
                 }
             });
         };
@@ -2782,6 +3280,10 @@
             productDetailModal.classList.remove('show');
         });
 
+        closePolicy.addEventListener('click', () => {
+            policyModal.classList.remove('show');
+        });
+
         // النقر خارج النوافذ لإغلاقها
         cartModal.addEventListener('click', (e) => {
             if (e.target === cartModal) {
@@ -2798,6 +3300,12 @@
         productDetailModal.addEventListener('click', (e) => {
             if (e.target === productDetailModal) {
                 productDetailModal.classList.remove('show');
+            }
+        });
+
+        policyModal.addEventListener('click', (e) => {
+            if (e.target === policyModal) {
+                policyModal.classList.remove('show');
             }
         });
 
@@ -2850,10 +3358,11 @@
                 return;
             }
             
+            const location = userMarker ? userMarker.getLatLng() : null;
+            
             const orderData = {
                 customerName: document.getElementById('customerName').value,
                 customerPhone: document.getElementById('customerPhone').value,
-                customerAddress: document.getElementById('customerAddress').value,
                 customerNotes: document.getElementById('customerNotes').value,
                 items: cartItems,
                 total: cartItems.reduce((total, item) => {
@@ -2862,7 +3371,10 @@
                 }, 0),
                 status: 'pending',
                 createdAt: new Date().toISOString(),
-                location: userMarker ? userMarker.getLatLng() : null
+                location: location ? {
+                    lat: location.lat,
+                    lng: location.lng
+                } : null
             };
             
             submitOrder(orderData);
@@ -2891,6 +3403,61 @@
         // تحديد الموقع
         detectLocationBtn.addEventListener('click', detectLocation);
 
+        // أحداث التقييم
+        ratingInput.querySelectorAll('i').forEach(star => {
+            star.addEventListener('click', () => {
+                selectedRating = parseInt(star.dataset.rating);
+                updateRatingStars();
+            });
+            
+            star.addEventListener('mouseover', () => {
+                const rating = parseInt(star.dataset.rating);
+                const stars = ratingInput.querySelectorAll('i');
+                
+                stars.forEach((s, index) => {
+                    if (index < rating) {
+                        s.classList.remove('far');
+                        s.classList.add('fas');
+                    } else {
+                        s.classList.remove('fas');
+                        s.classList.add('far');
+                    }
+                });
+            });
+            
+            star.addEventListener('mouseout', () => {
+                updateRatingStars();
+            });
+        });
+
+        submitReview.addEventListener('click', addProductReview);
+
+        // أحداث سياسات الخدمة
+        faqLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showPolicy('faq');
+        });
+
+        returnPolicyLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showPolicy('returnPolicy');
+        });
+
+        shippingPolicyLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showPolicy('shippingPolicy');
+        });
+
+        privacyPolicyLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showPolicy('privacyPolicy');
+        });
+
+        termsLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showPolicy('terms');
+        });
+
         // أحداث الأزرار الأخرى
         shopNowBtn.addEventListener('click', () => {
             window.scrollTo({
@@ -2901,7 +3468,7 @@
 
         viewOffersBtn.addEventListener('click', () => {
             window.scrollTo({
-                top: document.getElementById('offerProducts').offsetTop - 100,
+                top: document.getElementById('allProducts').offsetTop - 100,
                 behavior: 'smooth'
             });
         });
@@ -2910,4 +3477,4 @@
         initApp();
     </script>
 </body>
-</html>انشاء صفحة تفاصيل المنتج
+</html>
